@@ -1,7 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, avoid_unnecessary_containers, prefer_const_constructors
 
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:peliculas/widgets/card_swiper.dart';
 import 'package:peliculas/widgets/widgets.dart';
@@ -14,7 +13,6 @@ class DetailScreen extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments?.toString() ?? 'no-movie';
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           _CustomAppBar(),

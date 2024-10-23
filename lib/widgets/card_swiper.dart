@@ -24,7 +24,7 @@ class CardSwiper extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: size.height * 0.6,
+      height: size.height * 0.5,
       margin: EdgeInsets.only(top: 10),
       child: Swiper(
         itemCount: movies.length,

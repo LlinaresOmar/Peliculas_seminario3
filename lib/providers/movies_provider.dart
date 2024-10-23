@@ -27,6 +27,9 @@ class MoviesProviders extends ChangeNotifier {
       'page': '1',
     });
 
+    print("URL 1");
+    print(url);
+
     final response = await http.get(url);
 
     // Decodificamos el cuerpo de la respuesta a un Map<String, dynamic>
@@ -42,11 +45,14 @@ class MoviesProviders extends ChangeNotifier {
   }
 
   getPopularMovies() async {
-    var url = Uri.https(_baseUrl, '3/movie/now_playing', {
+    var url = Uri.https(_baseUrl, '3/movie/popular', {
       'api_key': _apikey,
       'language': _language,
       'page': '1',
     });
+
+    print("URL 2");
+    print(url);
 
     final response = await http.get(url);
 

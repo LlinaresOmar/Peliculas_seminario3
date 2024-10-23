@@ -1,31 +1,48 @@
 import 'package:flutter/material.dart';
-
+import 'package:peliculas/models/models.dart';
 
 class MovieSliderHorizontal extends StatelessWidget {
+  final List<Movie> movies;
+  final String? title;
+
+  const MovieSliderHorizontal({super.key, required this.movies, this.title});
+
   @override
   Widget build(BuildContext context) {
+
+
+    if (movies.length == 0) {
+      return Container(
+        margin: EdgeInsets.only(top: 100),
+        width: double.infinity,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Container(
       width: double.infinity,
       height: 270,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Populares",
-              style: TextStyle(fontWeight: FontWeight.bold),
+          // Mostrar el Padding solo si el title no es nulo
+          if (title != null)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                "$title",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
           Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 20,
-              itemBuilder: (context, index){
-                return _MoviePoster();
-              }
-            )
-          )
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: movies.length,
+                  itemBuilder: (context, index) {
+                    return _MoviePoster(movie: movies[index]);
+                  }))
         ],
       ),
     );
@@ -33,12 +50,14 @@ class MovieSliderHorizontal extends StatelessWidget {
 }
 
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({
-    super.key,
-  });
+  final Movie movie;
+
+  const _MoviePoster({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
+    print(movie
+        .fullPosterImg); // Agrega esta línea en el constructor de _MoviePoster
     return Container(
       width: 130,
       height: 190,
@@ -46,18 +65,19 @@ class _MoviePoster extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(
                 context,
                 'details', // Ruta de destino
-                arguments: '', // Por ahora pasamos un String vacío como argumento
+                arguments:
+                    movie, // Por ahora pasamos un String vacío como argumento
               );
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(
                 placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage('https://placehold.co/300x400.jpeg'),
+                image: NetworkImage(movie.fullPosterImg),
                 fit: BoxFit.cover,
                 height: 140,
               ),
@@ -65,7 +85,7 @@ class _MoviePoster extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text(
-            "Lore ipsum dolor sit amet, consectetur adipiscing elit, sed do",
+            movie.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
